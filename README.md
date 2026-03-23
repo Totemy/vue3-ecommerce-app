@@ -21,5 +21,3 @@ A small e-commerce application built with Vue 3 using Composition API.
 - State management with composables
 - Working with asynchronous data
 
-## Note
-Commercial experience includes similar functionality, but code is under NDA.
