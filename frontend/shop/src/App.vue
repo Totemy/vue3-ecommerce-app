@@ -3,7 +3,5 @@ import HomeView from './views/HomeView.vue'
 </script>
 
 <template>
-    <div><HomeView /></div>
+  <div><HomeView /></div>
 </template>
-
-<style scoped></style>
