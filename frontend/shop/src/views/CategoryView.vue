@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useCategories } from '../composable/useCategories'
-import type { Category } from '../types/category'
+import { useCategories } from '../features/catalog/composable/useCategories'
+import type { Category } from '../features/catalog/types/category'
 
 const { categories } = useCategories()
 

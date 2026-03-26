@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useCategories } from '../composable/useCategories'
-import { useProducts } from '../composable/useProducts'
+import { useCategories } from '../features/catalog/composable/useCategories'
+import { useProducts } from '../features/catalog/composable/useProducts'
 
 const { categories } = useCategories()
 const { filteredProducts, selectedCategorySlug, selectCategory } = useProducts()
