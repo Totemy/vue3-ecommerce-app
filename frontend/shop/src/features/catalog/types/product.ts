@@ -10,12 +10,7 @@ export interface ProductVariant {
   stockQuantity: number
 }
 
-export type Material =
-  | 'silver_925'
-  | 'gold_585'
-  | 'gold_750'
-  | 'platinum'
-  | 'steel'
+export type Material = 'silver_925' | 'gold_585' | 'gold_750' | 'platinum' | 'steel'
 
 export interface Product {
   id: string

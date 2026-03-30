@@ -4,22 +4,22 @@ import { initializeDatabase } from './database/data-source'
 import { config } from './config/env'
 
 const startServer = async () => {
-    try {
-        await initializeDatabase()
+  try {
+    await initializeDatabase()
 
-        const app = createApp()
+    const app = createApp()
 
-        app.listen(config.port, () => {
-            console.log('Server started successfully!')
-            console.log(`Environment: ${config.nodeEnv}`)
-            console.log(`Server http://localhost:${config.port}`)
-            console.log(`Health: http://localhost:${config.port}/health`)
-            console.log(`Frontend: ${config.frontendUrl}`)
-        })
-    } catch (error) {
-        console.error('Failed to start server:', error)
-        process.exit(1)
-    }
+    app.listen(config.port, () => {
+      console.log('Server started successfully!')
+      console.log(`Environment: ${config.nodeEnv}`)
+      console.log(`Server http://localhost:${config.port}`)
+      console.log(`Health: http://localhost:${config.port}/health`)
+      console.log(`Frontend: ${config.frontendUrl}`)
+    })
+  } catch (error) {
+    console.error('Failed to start server:', error)
+    process.exit(1)
+  }
 }
 
 startServer()

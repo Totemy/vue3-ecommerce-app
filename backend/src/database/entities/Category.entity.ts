@@ -1,43 +1,43 @@
 import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    CreateDateColumn,
-    UpdateDateColumn,
-    ManyToMany,
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToMany,
 } from 'typeorm'
 
 import { Product } from './Product.entity'
 
 @Entity('categories')
 export class Category {
-    @PrimaryGeneratedColumn('uuid')
-    id!: string
+  @PrimaryGeneratedColumn('uuid')
+  id!: string
 
-    @Column({ unique: true })
-    name!: string
+  @Column({ unique: true })
+  name!: string
 
-    @Column({ unique: true })
-    slug!: string
+  @Column({ unique: true })
+  slug!: string
 
-    @Column({ type: 'text', nullable: true })
-    description?: string
+  @Column({ type: 'text', nullable: true })
+  description?: string
 
-    @Column({ nullable: true })
-    imageUrl?: string
+  @Column({ nullable: true })
+  imageUrl?: string
 
-    @Column({ default: 0 })
-    displayOrder!: number
+  @Column({ default: 0 })
+  displayOrder!: number
 
-    @Column({ default: true })
-    isActive!: boolean
+  @Column({ default: true })
+  isActive!: boolean
 
-    @ManyToMany(() => Product, (product) => product.categories)
-    products!: Product[]
+  @ManyToMany(() => Product, (product) => product.categories)
+  products!: Product[]
 
-    @CreateDateColumn()
-    createdAt?: Date | null
+  @CreateDateColumn()
+  createdAt?: Date | null
 
-    @UpdateDateColumn()
-    updatedAt?: Date | null
+  @UpdateDateColumn()
+  updatedAt?: Date | null
 }

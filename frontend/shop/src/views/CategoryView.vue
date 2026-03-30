@@ -10,11 +10,7 @@ const emit = defineEmits<{
 </script>
 <template>
   <div>
-    <button
-      v-for="category in categories"
-      :key="category.id"
-      @click="emit('select', category)"
-    >
+    <button v-for="category in categories" :key="category.id" @click="emit('select', category)">
       {{ category.name }}
     </button>
   </div>

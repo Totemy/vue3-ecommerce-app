@@ -1,105 +1,105 @@
 import {
-    Entity,
-    PrimaryGeneratedColumn,
-    Column,
-    CreateDateColumn,
-    UpdateDateColumn,
-    OneToMany,
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
 } from 'typeorm'
 import { OrderItem } from './OrderItem.entity'
 import { decimalTransformer } from '../../common/types/helpers'
 export enum OrderStatus {
-    PENDING = 'pending',
-    CONFIRMED = 'confirmed',
-    PROCESSING = 'processing',
-    SHIPPED = 'shipped',
-    DELIVERED = 'delivered',
-    CANCELLED = 'cancelled',
+  PENDING = 'pending',
+  CONFIRMED = 'confirmed',
+  PROCESSING = 'processing',
+  SHIPPED = 'shipped',
+  DELIVERED = 'delivered',
+  CANCELLED = 'cancelled',
 }
 
 export enum PaymentMethod {
-    CARD = 'card',
-    CASH_ON_DELIVERY = 'cash_on_delivery',
+  CARD = 'card',
+  CASH_ON_DELIVERY = 'cash_on_delivery',
 }
 
 @Entity('orders')
 export class Order {
-    @PrimaryGeneratedColumn('uuid')
-    id!: string
+  @PrimaryGeneratedColumn('uuid')
+  id!: string
 
-    @Column({ unique: true })
-    orderNumber!: string
+  @Column({ unique: true })
+  orderNumber!: string
 
-    @Column()
-    customerName!: string
+  @Column()
+  customerName!: string
 
-    @Column()
-    customerEmail!: string
+  @Column()
+  customerEmail!: string
 
-    @Column()
-    customerPhone!: string
+  @Column()
+  customerPhone!: string
 
-    @Column({
-        type: 'enum',
-        enum: OrderStatus,
-        default: OrderStatus.PENDING,
-    })
-    status!: OrderStatus
+  @Column({
+    type: 'enum',
+    enum: OrderStatus,
+    default: OrderStatus.PENDING,
+  })
+  status!: OrderStatus
 
-    @Column({
-        type: 'enum',
-        enum: PaymentMethod,
-    })
-    paymentMethod!: PaymentMethod
+  @Column({
+    type: 'enum',
+    enum: PaymentMethod,
+  })
+  paymentMethod!: PaymentMethod
 
-    @Column({
-        type: 'decimal',
-        precision: 10,
-        scale: 2,
-        transformer: decimalTransformer,
-    })
-    subtotal!: number
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    transformer: decimalTransformer,
+  })
+  subtotal!: number
 
-    @Column({
-        type: 'decimal',
-        precision: 10,
-        scale: 2,
-        transformer: decimalTransformer,
-    })
-    shippingCost!: number
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    transformer: decimalTransformer,
+  })
+  shippingCost!: number
 
-    @Column({
-        type: 'decimal',
-        precision: 10,
-        scale: 2,
-        transformer: decimalTransformer,
-    })
-    total!: number
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    transformer: decimalTransformer,
+  })
+  total!: number
 
-    @Column({ type: 'jsonb' })
-    shippingAddress!: {
-        city: string
-        address: string
-        postalCode: string
-    }
+  @Column({ type: 'jsonb' })
+  shippingAddress!: {
+    city: string
+    address: string
+    postalCode: string
+  }
 
-    @Column({ type: 'text', nullable: true })
-    customerNotes?: string
+  @Column({ type: 'text', nullable: true })
+  customerNotes?: string
 
-    @Column({ type: 'text', nullable: true })
-    adminNotes?: string
+  @Column({ type: 'text', nullable: true })
+  adminNotes?: string
 
-    @Column({ nullable: true })
-    trackingNumber?: string
+  @Column({ nullable: true })
+  trackingNumber?: string
 
-    @OneToMany(() => OrderItem, (item) => item.order, {
-        cascade: true,
-    })
-    items!: OrderItem[]
+  @OneToMany(() => OrderItem, (item) => item.order, {
+    cascade: true,
+  })
+  items!: OrderItem[]
 
-    @CreateDateColumn()
-    createdAt!: Date
+  @CreateDateColumn()
+  createdAt!: Date
 
-    @UpdateDateColumn()
-    updatedAt!: Date
+  @UpdateDateColumn()
+  updatedAt!: Date
 }

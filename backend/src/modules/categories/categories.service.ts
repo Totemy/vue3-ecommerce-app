@@ -2,109 +2,107 @@ import { AppDataSource } from '../../database/data-source'
 import { Category } from '../../database/entities/Category.entity'
 
 export class CategoriesService {
-    private categoryRepo = AppDataSource.getRepository(Category)
+  private categoryRepo = AppDataSource.getRepository(Category)
 
-    async findAll() {
-        return await this.categoryRepo.find({
-            where: { isActive: true },
-            order: {
-                displayOrder: 'ASC',
-                name: 'ASC',
-            },
-        })
+  async findAll() {
+    return await this.categoryRepo.find({
+      where: { isActive: true },
+      order: {
+        displayOrder: 'ASC',
+        name: 'ASC',
+      },
+    })
+  }
+
+  async findAllForAdmin() {
+    return await this.categoryRepo.find({
+      order: {
+        displayOrder: 'ASC',
+        name: 'ASC',
+      },
+    })
+  }
+
+  async findBySlug(slug: string) {
+    const category = await this.categoryRepo.findOne({
+      where: { slug, isActive: true },
+    })
+
+    if (!category) {
+      throw new Error('Category not found')
     }
 
-    async findAllForAdmin() {
-        return await this.categoryRepo.find({
-            order: {
-                displayOrder: 'ASC',
-                name: 'ASC',
-            },
-        })
+    return category
+  }
+
+  async create(data: {
+    name: string
+    slug: string
+    description?: string
+    imageUrl?: string
+    displayOrder?: number
+  }) {
+    const existing = await this.categoryRepo.findOne({
+      where: { slug: data.slug },
+    })
+
+    if (existing) {
+      throw new Error('Category with this slug already exists')
     }
 
-    async findBySlug(slug: string) {
-        const category = await this.categoryRepo.findOne({
-            where: { slug, isActive: true },
-        })
+    const category = this.categoryRepo.create(data)
+    return await this.categoryRepo.save(category)
+  }
 
-        if (!category) {
-            throw new Error('Category not found')
-        }
+  async update(
+    id: string,
+    data: Partial<{
+      name: string
+      slug: string
+      description: string
+      imageUrl: string
+      displayOrder: number
+      isActive: boolean
+    }>,
+  ) {
+    const category = await this.categoryRepo.findOne({ where: { id } })
 
-        return category
+    if (!category) {
+      throw new Error('Category not found')
     }
 
-    async create(data: {
-        name: string
-        slug: string
-        description?: string
-        imageUrl?: string
-        displayOrder?: number
-    }) {
-        const existing = await this.categoryRepo.findOne({
-            where: { slug: data.slug },
-        })
+    if (data.slug && data.slug !== category.slug) {
+      const existing = await this.categoryRepo.findOne({
+        where: { slug: data.slug },
+      })
 
-        if (existing) {
-            throw new Error('Category with this slug already exists')
-        }
-
-        const category = this.categoryRepo.create(data)
-        return await this.categoryRepo.save(category)
+      if (existing) {
+        throw new Error('Category with this slug already exists')
+      }
     }
 
-    async update(
-        id: string,
-        data: Partial<{
-            name: string
-            slug: string
-            description: string
-            imageUrl: string
-            displayOrder: number
-            isActive: boolean
-        }>,
-    ) {
-        const category = await this.categoryRepo.findOne({ where: { id } })
+    Object.assign(category, data)
 
-        if (!category) {
-            throw new Error('Category not found')
-        }
+    return await this.categoryRepo.save(category)
+  }
 
-        if (data.slug && data.slug !== category.slug) {
-            const existing = await this.categoryRepo.findOne({
-                where: { slug: data.slug },
-            })
+  async delete(id: string) {
+    const productRepo = AppDataSource.getRepository('Product')
+    const productCount = await productRepo.count({
+      where: { categoryId: id },
+    })
 
-            if (existing) {
-                throw new Error('Category with this slug already exists')
-            }
-        }
-
-        Object.assign(category, data)
-
-        return await this.categoryRepo.save(category)
+    if (productCount > 0) {
+      throw new Error('Cannot delete category with products. Move or delete products first.')
     }
 
-    async delete(id: string) {
-        const productRepo = AppDataSource.getRepository('Product')
-        const productCount = await productRepo.count({
-            where: { categoryId: id },
-        })
-
-        if (productCount > 0) {
-            throw new Error(
-                'Cannot delete category with products. Move or delete products first.',
-            )
-        }
-
-        await this.categoryRepo.delete(id)
+    await this.categoryRepo.delete(id)
+  }
+  async reorder(categoryOrders: { id: string; displayOrder: number }[]) {
+    for (const { id, displayOrder } of categoryOrders) {
+      await this.categoryRepo.update(id, { displayOrder })
     }
-    async reorder(categoryOrders: { id: string; displayOrder: number }[]) {
-        for (const { id, displayOrder } of categoryOrders) {
-            await this.categoryRepo.update(id, { displayOrder })
-        }
 
-        return await this.findAll()
-    }
+    return await this.findAll()
+  }
 }

@@ -9,34 +9,26 @@ import { OrderItem } from './entities/OrderItem.entity'
 import { RefreshToken } from './entities/RefreshToken.entity'
 
 export const AppDataSource = new DataSource({
-    type: 'postgres',
-    host: config.db.host,
-    port: config.db.port,
-    username: config.db.user,
-    password: config.db.password,
-    database: config.db.name,
-    synchronize: false,
-    logging: true,
-    entities: [
-        Admin,
-        Category,
-        Product,
-        ProductVariant,
-        Order,
-        OrderItem,
-        RefreshToken,
-    ],
+  type: 'postgres',
+  host: config.db.host,
+  port: config.db.port,
+  username: config.db.user,
+  password: config.db.password,
+  database: config.db.name,
+  synchronize: false,
+  logging: true,
+  entities: [Admin, Category, Product, ProductVariant, Order, OrderItem, RefreshToken],
 
-    migrations: ['src/database/migration/*.ts'],
-    migrationsTableName: 'migrations',
+  migrations: ['src/database/migration/*.ts'],
+  migrationsTableName: 'migrations',
 })
 
 export const initializeDatabase = async (): Promise<void> => {
-    try {
-        await AppDataSource.initialize()
-        console.log('Database connect')
-    } catch (error) {
-        console.error('Database connection failed', error)
-        process.exit(1)
-    }
+  try {
+    await AppDataSource.initialize()
+    console.log('Database connect')
+  } catch (error) {
+    console.error('Database connection failed', error)
+    process.exit(1)
+  }
 }

@@ -32,32 +32,24 @@ router.post('/:id/images', (req, res) => productsController.addImage(req, res))
  * DELETE /api/admin/products/images/:imageId
  * Видалити фото
  */
-router.delete('/images/:imageId', (req, res) =>
-    productsController.deleteImage(req, res),
-)
+router.delete('/images/:imageId', (req, res) => productsController.deleteImage(req, res))
 
 /**
  * POST /api/admin/products/:id/variants
  * Додати варіанти (розміри)
  */
-router.post('/:id/variants', (req, res) =>
-    productsController.addVariants(req, res),
-)
+router.post('/:id/variants', (req, res) => productsController.addVariants(req, res))
 
 /**
  * PUT /api/admin/products/variants/:variantId
  * Оновити варіант
  */
-router.put('/variants/:variantId', (req, res) =>
-    productsController.updateVariant(req, res),
-)
+router.put('/variants/:variantId', (req, res) => productsController.updateVariant(req, res))
 
 /**
  * DELETE /api/admin/products/variants/:variantId
  * Видалити варіант
  */
-router.delete('/variants/:variantId', (req, res) =>
-    productsController.deleteVariant(req, res),
-)
+router.delete('/variants/:variantId', (req, res) => productsController.deleteVariant(req, res))
 
 export default router
