@@ -38,6 +38,7 @@ export class ProductService {
   async findOne(filters: AtLeastOne<{ id?: string; slug?: string }>) {
     const product = await this.productRepo.findOne({
       where: filters,
+      relations: { categories: true, variants: true },
     })
     if (!product) {
       throw new Error('Product not found')

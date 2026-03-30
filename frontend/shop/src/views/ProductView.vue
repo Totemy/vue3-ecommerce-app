@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import axios from 'axios'
+import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { ProductService } from '../features/catalog/services/product.service'
 import type { Product } from '../features/catalog/types/product'
@@ -9,16 +10,34 @@ const product = ref<Product | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
 
-onMounted(async () => {
+const loadProduct = async (slug: string) => {
+  loading.value = true
+  error.value = null
+
   try {
-    const response = await ProductService.getBySlug(route.params.slug as string)
+    const response = await ProductService.getBySlug(slug)
     product.value = response.data.data
   } catch (err) {
-    error.value = err instanceof Error ? err.message : 'Unknown error'
+    if (axios.isAxiosError(err)) {
+      error.value = (err.response?.data as { error?: string } | undefined)?.error || err.message
+    } else {
+      error.value = err instanceof Error ? err.message : 'Unknown error'
+    }
+    product.value = null
   } finally {
     loading.value = false
   }
-})
+}
+
+watch(
+  () => route.params.slug,
+  (slug) => {
+    if (typeof slug === 'string' && slug.length > 0) {
+      loadProduct(slug)
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <template>

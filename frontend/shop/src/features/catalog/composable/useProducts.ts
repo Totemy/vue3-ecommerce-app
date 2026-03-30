@@ -29,8 +29,8 @@ export function useProducts() {
   const filteredProducts = computed<Product[]>(() => {
     const slug = selectedCategorySlug.value
     if (!slug) return products.value
-    return products.value.filter((products) =>
-      products.categories.some((category: Category) => category.slug === slug),
+    return products.value.filter((product) =>
+      product.categories.some((category: Category) => category.slug === slug),
     )
   })
 
