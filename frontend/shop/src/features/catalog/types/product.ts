@@ -1,3 +1,5 @@
+import type { Category } from './category'
+
 export interface ProductImage {
   url: string
   altText?: string
@@ -15,7 +17,7 @@ export type Material = 'silver_925' | 'gold_585' | 'gold_750' | 'platinum' | 'st
 export interface Product {
   id: string
   name: string
-  //slug: string
+  slug?: string
   description?: string
 
   price: number

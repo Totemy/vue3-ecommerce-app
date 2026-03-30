@@ -6,7 +6,7 @@ export const ProductService = {
     return http.get<{ products: Product[] }>('/products')
   },
 
-  getById(id: string) {
-    return http.get<Product>(`/products/${id}`)
+  getBySlug(slug: string) {
+    return http.get<{ data: Product }>(`/products/${slug}`)
   },
 }

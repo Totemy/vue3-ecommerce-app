@@ -24,10 +24,14 @@ const { filteredProducts, selectedCategorySlug, selectCategory } = useProducts()
     </div>
     <div>
       <h1>Products</h1>
-      <div v-for="product in filteredProducts" :key="product.id">
+      <RouterLink
+        v-for="product in filteredProducts"
+        :key="product.id"
+        :to="`/products/${product.slug || product.id}`"
+      >
         <h2>{{ product.name }}</h2>
         <p>{{ product.price }}</p>
-      </div>
+      </RouterLink>
     </div>
   </div>
 </template>

@@ -3,5 +3,8 @@ import HomeView from '../views/HomeView.vue'
 
 export const router = createRouter({
   history: createWebHistory(),
-  routes: [{ path: '/', component: HomeView }],
+  routes: [
+    { path: '/', component: HomeView },
+    { path: '/products/:slug', component: () => import('../views/ProductView.vue') },
+  ],
 })
