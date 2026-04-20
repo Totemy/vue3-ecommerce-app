@@ -28,7 +28,6 @@ export class OrdersController {
         !paymentMethod ||
         !shippingAddress ||
         !customerPhone ||
-        !customerNotes ||
         !items ||
         !Array.isArray(items) ||
         items.length === 0

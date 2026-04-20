@@ -6,5 +6,6 @@ export const router = createRouter({
   routes: [
     { path: '/', component: HomeView },
     { path: '/products/:slug', component: () => import('../views/ProductView.vue') },
+    { path: '/cart', component: () => import('../views/CartView.vue') },
   ],
 })
